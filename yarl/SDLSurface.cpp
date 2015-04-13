@@ -20,8 +20,17 @@ void SDLSurface::OptimizeFor(const SDLSurface& screenSurface)
 
 void SDLSurface::Blit(const SDLSurface& surface, const SDLRect& sourceRect, SDLRect& destRect) const
 {
+    SDL_SetSurfaceColorMod(surface.m_surface, 255, 255, 255);
     SDL_BlitSurface(surface.m_surface, &sourceRect.Rect(), m_surface, &destRect.Rect());
 }
+
+void SDLSurface::ColorBlit(const SDLSurface& surface, const SDLRect& sourceRect, SDLRect& destRect, Color c) const
+{
+
+    SDL_SetSurfaceColorMod(surface.m_surface, c.r, c.g, c.b);
+    SDL_BlitSurface(surface.m_surface, &sourceRect.Rect(), m_surface, &destRect.Rect());
+}
+
 int SDLSurface::Width()
 {
     if (m_surface != nullptr)

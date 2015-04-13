@@ -2,6 +2,7 @@
 #include <SDL.h>
 #include <iostream>
 
+struct Color;
 class SDLRect;
 
 class SDLSurface
@@ -45,6 +46,8 @@ public:
     void OptimizeFor(const SDLSurface& screenSurface);
 
     void Blit(const SDLSurface& surface, const SDLRect& sourceRect, SDLRect& destRect) const;
+    void ColorBlit(const SDLSurface& surface, const SDLRect& sourceRect, SDLRect& destRect, Color c) const;
+
     int Width();
     int Height();
 };
