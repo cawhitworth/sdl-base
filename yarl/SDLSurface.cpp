@@ -6,7 +6,7 @@ SDLSurface::~SDLSurface()
     {
         SDL_FreeSurface(m_surface);
     }
-    m_surface = 0;
+    m_surface = nullptr;
 }
 
 void SDLSurface::OptimizeFor(const SDLSurface& screenSurface)

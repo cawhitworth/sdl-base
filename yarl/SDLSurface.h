@@ -9,9 +9,9 @@ protected:
     bool m_suppressCleanup;
 
 public:
-    SDLSurface() : m_surface(0), m_suppressCleanup(true) {}
+    SDLSurface() : m_surface(nullptr), m_suppressCleanup(true) {}
 
-    SDLSurface(SDL_Surface* surface, bool suppressCleanup = false) 
+    explicit SDLSurface(SDL_Surface* surface, bool suppressCleanup = false) 
         : m_surface(surface)
         , m_suppressCleanup(suppressCleanup)
     {}
@@ -23,7 +23,7 @@ public:
         : m_surface(other.m_surface)
         , m_suppressCleanup(other.m_suppressCleanup)
     {
-        other.m_surface = 0;
+        other.m_surface = nullptr;
     }
 
     void OptimizeFor(const SDLSurface& screenSurface);

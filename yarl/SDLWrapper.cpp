@@ -15,7 +15,7 @@ SDLWrapper::SDLWrapper(int w, int h)
 
     m_window = SDL_CreateWindow("Yarl", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, w, h, SDL_WINDOW_SHOWN);
 
-    if (m_window == NULL)
+    if (m_window == nullptr)
     {
         err << "Window could not be created" << SDL_GetError();
         throw std::exception(err.str().c_str());

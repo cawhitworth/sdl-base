@@ -22,7 +22,7 @@ SDLSurface PNGLoader::Load(std::string path)
     std::stringstream err;
 
     auto loadedSurface = IMG_Load(path.c_str());
-    if (loadedSurface == NULL)
+    if (loadedSurface == nullptr)
     {
         err << "Cannot load PNG '" << path << "' - " << IMG_GetError();
         throw std::exception(err.str().c_str());

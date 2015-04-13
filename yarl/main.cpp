@@ -20,11 +20,11 @@ int main(int argc, char* argv [])
         SDL_Rect src;
         src.x = src.y = 0;
         src.h = 100; src.w = 100;
-        wrapper.ScreenSurface().Blit(surface, src, src);
+        screenSurface.Blit(surface, src, src);
 
         wrapper.Update();
 
-        bool quit = false;
+        auto quit = false;
         while (!quit)
         {
             SDL_Event e;
