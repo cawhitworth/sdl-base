@@ -20,12 +20,26 @@ public:
 
     ~SDLSurface();
 
-    SDLSurface(const SDLSurface& other) = delete;
+    SDLSurface(const SDLSurface&) = delete;
     SDLSurface(SDLSurface&& other) 
         : m_surface(other.m_surface)
         , m_suppressCleanup(other.m_suppressCleanup)
     {
         other.m_surface = nullptr;
+    }
+
+    SDLSurface& operator=(const SDLSurface&) = delete;
+    SDLSurface& operator=(SDLSurface&& other)
+    {
+        if (m_surface != nullptr)
+        {
+            throw std::exception("Cannot assign to a previously assigned surface");
+        }
+
+        m_surface = other.m_surface;
+        m_suppressCleanup = other.m_suppressCleanup;
+        other.m_surface = nullptr;
+        return *this;
     }
 
     void OptimizeFor(const SDLSurface& screenSurface);
