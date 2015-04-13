@@ -2,6 +2,8 @@
 #include <SDL.h>
 #include <iostream>
 
+class SDLRect;
+
 class SDLSurface
 {
 protected:
@@ -28,6 +30,8 @@ public:
 
     void OptimizeFor(const SDLSurface& screenSurface);
 
-    void Blit(const SDLSurface& surface, const SDL_Rect& sourceRect, SDL_Rect& destRect) const;
+    void Blit(const SDLSurface& surface, const SDLRect& sourceRect, SDLRect& destRect) const;
+    int Width();
+    int Height();
 };
 

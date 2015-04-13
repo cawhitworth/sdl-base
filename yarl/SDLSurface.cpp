@@ -1,4 +1,6 @@
 #include "SDLSurface.h"
+#include "SDLRect.h"
+#include "Color.h"
 
 SDLSurface::~SDLSurface()
 {
@@ -16,7 +18,20 @@ void SDLSurface::OptimizeFor(const SDLSurface& screenSurface)
     m_surface = optimizedSurface;
 }
 
-void SDLSurface::Blit(const SDLSurface& surface, const SDL_Rect& sourceRect, SDL_Rect& destRect) const
+void SDLSurface::Blit(const SDLSurface& surface, const SDLRect& sourceRect, SDLRect& destRect) const
 {
-    SDL_BlitSurface(surface.m_surface, &sourceRect, m_surface, &destRect);
+    SDL_BlitSurface(surface.m_surface, &sourceRect.Rect(), m_surface, &destRect.Rect());
+}
+int SDLSurface::Width()
+{
+    if (m_surface != nullptr)
+        return m_surface->w;
+    return 0;
+}
+
+int SDLSurface::Height()
+{
+    if (m_surface != nullptr)
+        return m_surface->h;
+    return 0;
 }
