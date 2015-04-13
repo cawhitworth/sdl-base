@@ -24,7 +24,18 @@ int main(int argc, char* argv [])
 
         wrapper.Update();
 
-        SDL_Delay(2000);
+        bool quit = false;
+        while (!quit)
+        {
+            SDL_Event e;
+            while (SDL_PollEvent(&e) != 0)
+            {
+                if (e.type == SDL_QUIT)
+                {
+                    quit = true;
+                }
+            }
+        }
     }
     catch (std::exception e)
     {
