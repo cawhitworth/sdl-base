@@ -90,7 +90,6 @@
     <ClInclude Include="PngLoader.h" />
     <ClInclude Include="SDLSurface.h" />
     <ClInclude Include="SDLWrapper.h" />
-    <ClInclude Include="TextureSurface.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
