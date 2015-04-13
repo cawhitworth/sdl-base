@@ -5,7 +5,8 @@
 
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480
-
+#include "TextRenderer.h"
+#include "Color.h"
 
 int main(int argc, char* argv [])
 {
@@ -15,12 +16,11 @@ int main(int argc, char* argv [])
 
         auto &screenSurface = wrapper.ScreenSurface();
 
-        auto surface = pngLoader.Load("images/CLA.png");
+        auto textRenderer = TextRenderer("images/CLA.png");
 
-        SDL_Rect src;
-        src.x = src.y = 0;
-        src.h = 100; src.w = 100;
-        screenSurface.Blit(surface, src, src);
+        textRenderer.RenderCharacter('r', 32, 32, screenSurface, Color(255,0,0));
+        textRenderer.RenderCharacter('g', 48, 32, screenSurface, Color(0,255,0));
+        textRenderer.RenderCharacter('b', 64, 32, screenSurface, Color(0,0,255));
 
         wrapper.Update();
 

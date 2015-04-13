@@ -85,6 +85,7 @@
     <ClCompile Include="PngLoader.cpp" />
     <ClCompile Include="SDLSurface.cpp" />
     <ClCompile Include="SDLWrapper.cpp" />
+    <ClCompile Include="TextRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Color.h" />
@@ -92,6 +93,7 @@
     <ClInclude Include="SDLRect.h" />
     <ClInclude Include="SDLSurface.h" />
     <ClInclude Include="SDLWrapper.h" />
+    <ClInclude Include="TextRenderer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
