@@ -16,7 +16,6 @@ int main(int argc, char* argv [])
         auto &screenSurface = wrapper.ScreenSurface();
 
         auto surface = pngLoader.Load("images/CLA.png");
-        //surface.OptimizeFor(screenSurface);
 
         SDL_Rect src;
         src.x = src.y = 0;

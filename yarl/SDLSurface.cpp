@@ -18,6 +18,5 @@ void SDLSurface::OptimizeFor(const SDLSurface& screenSurface)
 
 void SDLSurface::Blit(const SDLSurface& surface, const SDL_Rect& sourceRect, SDL_Rect& destRect) const
 {
-    SDL_SetSurfaceBlendMode(m_surface, SDL_BLENDMODE_BLEND);
     SDL_BlitSurface(surface.m_surface, &sourceRect, m_surface, &destRect);
 }
