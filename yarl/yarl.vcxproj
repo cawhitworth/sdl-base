@@ -86,6 +86,7 @@
     <ClCompile Include="SDLRenderer.cpp" />
     <ClCompile Include="SDLSurface.cpp" />
     <ClCompile Include="SDLWrapper.cpp" />
+    <ClCompile Include="SDLTexture.cpp" />
     <ClCompile Include="TextRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -95,6 +96,7 @@
     <ClInclude Include="SDLRenderer.h" />
     <ClInclude Include="SDLSurface.h" />
     <ClInclude Include="SDLWrapper.h" />
+    <ClInclude Include="SDLTexture.h" />
     <ClInclude Include="TextRenderer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
