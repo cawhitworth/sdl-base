@@ -9,6 +9,7 @@
 #include "TextRenderer.h"
 #include "Color.h"
 #include <sstream>
+#include "FPS.h"
 
 int main(int argc, char* argv [])
 {
@@ -26,13 +27,13 @@ int main(int argc, char* argv [])
 
         renderer.Present();
 
+        FPS fps;
+
         auto quit = false;
-        auto frame = 0;
-        auto start = std::chrono::high_resolution_clock::now();
-        auto fps = 0;
-        std::chrono::seconds one_second(1);
         while (!quit)
         {
+            fps.Tick();
+
             SDL_Event e;
             while (SDL_PollEvent(&e) != 0)
             {
@@ -43,8 +44,9 @@ int main(int argc, char* argv [])
             }
 
             renderer.Clear();
+
             std::stringstream fpsText;
-            fpsText << fps << "FPS";
+            fpsText << fps.Fps() << "FPS";
 
             textRenderer.PrintString(fpsText.str(), 0, 0, Color(200, 255, 200));
             ;
@@ -52,13 +54,6 @@ int main(int argc, char* argv [])
 
             renderer.Present();
 
-            frame++;
-            if (std::chrono::high_resolution_clock::now() - start > one_second)
-            {
-                fps = frame;
-                frame = 0;
-                start = std::chrono::high_resolution_clock::now();
-            }
         }
     }
     catch (std::exception e)
