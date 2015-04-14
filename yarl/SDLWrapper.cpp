@@ -2,6 +2,7 @@
 #include <sstream>
 #include <exception>
 
+#include "SDL_render.h"
 #include "SDLWrapper.h"
 
 SDLWrapper::SDLWrapper(int w, int h)
@@ -21,11 +22,20 @@ SDLWrapper::SDLWrapper(int w, int h)
         throw std::exception(err.str().c_str());
     }
 
-    m_screenSurface = SDLSurface(SDL_GetWindowSurface(m_window), true);
+    auto renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
+    if (SDL_RenderClear(renderer) < 0)
+    {
+        err << SDL_GetError();
+        throw std::exception(err.str().c_str());
+    }
+
+    m_renderer = SDLRenderer(renderer);
+    m_renderer.Clear();
 }
 
 SDLWrapper::~SDLWrapper()
 {
+    m_renderer.Destroy();
     SDL_Quit();
 }
 
