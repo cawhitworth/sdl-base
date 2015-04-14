@@ -10,22 +10,18 @@
 #include "Color.h"
 #include <sstream>
 #include "FPS.h"
+#include "Map.h"
+#include "MapRenderer.h"
 
 int main(int argc, char* argv [])
 {
     try {
+        Map m(200, 200);
         SDLWrapper wrapper(SCREEN_WIDTH, SCREEN_HEIGHT);
-        PNGLoader pngLoader;
 
         auto &renderer = wrapper.Renderer();
-
-        renderer.Clear();
-
         auto textRenderer = TextRenderer("images/CLA.png", renderer);
-
-        textRenderer.PrintString("Yet Another Rogue-like", 5, 2, Color(200, 200, 200));
-
-        renderer.Present();
+        MapRenderer mapRenderer(textRenderer, m);
 
         FPS fps;
 
@@ -45,11 +41,12 @@ int main(int argc, char* argv [])
 
             renderer.Clear();
 
+            mapRenderer.Render(0, 0, SCREEN_WIDTH / textRenderer.CharWidth(), SCREEN_HEIGHT / textRenderer.CharHeight());
+
             std::stringstream fpsText;
             fpsText << fps.Fps() << "FPS";
 
             textRenderer.PrintString(fpsText.str(), 0, 0, Color(200, 255, 200));
-            ;
             textRenderer.PrintString("Yet Another Rogue-like", 5, 2, Color(200, 200, 200));
 
             renderer.Present();
