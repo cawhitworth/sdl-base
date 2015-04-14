@@ -28,5 +28,5 @@ void TextRenderer::RenderCharacter(unsigned char c, int x, int y, const SDLSurfa
     auto srcRect = SDLRect(cx * m_characterHeight, cy * m_characterWidth, m_characterHeight, m_characterWidth);
     auto destRect = SDLRect(x, y, m_characterHeight, m_characterWidth);
 
-    m_renderer.RenderCopy(m_texture, srcRect, destRect);
+    m_renderer.RenderCopyColor(m_texture, srcRect, destRect, color);
 }

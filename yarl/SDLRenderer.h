@@ -1,11 +1,13 @@
 #pragma once
 #include <SDL.h>
 #include "TextRenderer.h"
+#include "Color.h"
 struct SDL_Renderer;
 
 class SDLRenderer
 {
     SDL_Renderer* m_renderer;
+    Color m_White = Color(0xff, 0xff, 0xff);
 
 public:
     SDLRenderer() : m_renderer(nullptr) {}
@@ -45,6 +47,7 @@ public:
     SDL_Renderer* Renderer() const { return m_renderer; }
 
     void RenderCopy(const SDLTexture& texture, SDLRect& srcRect, SDLRect& destRect) const;
+    void RenderCopyColor(const SDLTexture& texture, SDLRect& srcRect, SDLRect& destRect, const Color& color) const;
     void Present() const;
     void Clear() const;
     void Destroy();

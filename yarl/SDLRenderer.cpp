@@ -1,6 +1,7 @@
 #include "SDLRenderer.h"
 #include "SDLRect.h"
 #include <sstream>
+#include "Color.h"
 
 
 void SDLRenderer::Destroy()
@@ -11,6 +12,12 @@ void SDLRenderer::Destroy()
 
 void SDLRenderer::RenderCopy(const SDLTexture& texture, SDLRect& srcRect, SDLRect& destRect) const
 {
+    RenderCopyColor(texture, srcRect, destRect, m_White);
+}
+
+void SDLRenderer::RenderCopyColor(const SDLTexture& texture, SDLRect& srcRect, SDLRect& destRect, const Color& color) const
+{
+    SDL_SetTextureColorMod(texture.Texture(), color.r, color.g, color.b);
     if (SDL_RenderCopy(m_renderer, texture.Texture(), &srcRect.Rect(), &destRect.Rect()) < 0)
     {
         std::stringstream err;
