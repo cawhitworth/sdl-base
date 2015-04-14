@@ -22,10 +22,11 @@ int main(int argc, char* argv [])
 
         auto textRenderer = TextRenderer("images/CLA.png", renderer);
 
+        textRenderer.PrintString("Yet Another Rogue-like", 5, 2, Color(200, 200, 200));
 
-        textRenderer.RenderCharacter('r', 32, 32, screenSurface, Color(255,0,0));
-        textRenderer.RenderCharacter('g', 48, 32, screenSurface, Color(0,255,0));
-        textRenderer.RenderCharacter('b', 64, 32, screenSurface, Color(0,0,255));
+        textRenderer.RenderCharacter('r', 32, 32, Color(255,0,0));
+        textRenderer.RenderCharacter('g', 48, 32, Color(0,255,0));
+        textRenderer.RenderCharacter('b', 64, 32, Color(0,0,255));
         renderer.Present();
 
         auto quit = false;
