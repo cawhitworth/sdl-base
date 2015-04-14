@@ -83,6 +83,7 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PngLoader.cpp" />
+    <ClCompile Include="SDLRenderer.cpp" />
     <ClCompile Include="SDLSurface.cpp" />
     <ClCompile Include="SDLWrapper.cpp" />
     <ClCompile Include="TextRenderer.cpp" />
@@ -91,6 +92,7 @@
     <ClInclude Include="Color.h" />
     <ClInclude Include="PngLoader.h" />
     <ClInclude Include="SDLRect.h" />
+    <ClInclude Include="SDLRenderer.h" />
     <ClInclude Include="SDLSurface.h" />
     <ClInclude Include="SDLWrapper.h" />
     <ClInclude Include="TextRenderer.h" />
