@@ -1,6 +1,8 @@
 #include "SDLSurface.h"
 #include "SDLRect.h"
 #include "Color.h"
+#include "SDLRenderer.h"
+#include <sstream>
 
 SDLSurface::~SDLSurface()
 {
@@ -9,6 +11,18 @@ SDLSurface::~SDLSurface()
         SDL_FreeSurface(m_surface);
     }
     m_surface = nullptr;
+}
+
+SDLTexture SDLSurface::CreateAsTexture(const SDLRenderer& renderer) const
+{
+    auto texture = SDL_CreateTextureFromSurface(renderer.Renderer() , m_surface);
+    if (texture == nullptr)
+    {
+        std::stringstream err;
+        err << "Could not create texture: " << SDL_GetError();
+        throw std::exception(err.str().c_str());
+    }
+    return SDLTexture(texture);
 }
 
 void SDLSurface::OptimizeFor(const SDLSurface& screenSurface)

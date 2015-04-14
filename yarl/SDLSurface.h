@@ -1,7 +1,9 @@
 #pragma once
 #include <SDL.h>
 #include <iostream>
+#include "SDLTexture.h"
 
+class SDLRenderer;
 struct Color;
 class SDLRect;
 
@@ -42,6 +44,8 @@ public:
         other.m_surface = nullptr;
         return *this;
     }
+
+    SDLTexture CreateAsTexture(const SDLRenderer& renderer) const;
 
     void OptimizeFor(const SDLSurface& screenSurface);
 
