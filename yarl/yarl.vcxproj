@@ -83,6 +83,7 @@
   <ItemGroup>
     <ClCompile Include="FPS.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Map.cpp" />
     <ClCompile Include="PngLoader.cpp" />
     <ClCompile Include="SDLRenderer.cpp" />
     <ClCompile Include="SDLSurface.cpp" />
@@ -93,6 +94,7 @@
   <ItemGroup>
     <ClInclude Include="Color.h" />
     <ClInclude Include="FPS.h" />
+    <ClInclude Include="Map.h" />
     <ClInclude Include="PngLoader.h" />
     <ClInclude Include="SDLRect.h" />
     <ClInclude Include="SDLRenderer.h" />
