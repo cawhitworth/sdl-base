@@ -62,4 +62,3 @@ int main(int argc, char* argv[])
     }
     return 0;
 }
-#pragma warning(default: 4100)
