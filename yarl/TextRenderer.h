@@ -7,6 +7,7 @@ class TextRendererImpl;
 class TextRenderer
 {
     std::unique_ptr<TextRendererImpl> m_Impl;
+
 public:
     TextRenderer(const std::string& fontFile, const SDLRenderer& renderer);
     ~TextRenderer();

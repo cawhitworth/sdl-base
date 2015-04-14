@@ -4,7 +4,6 @@
 #include "Color.h"
 #include "SDLRenderer.h"
 
-
 class TextRendererImpl
 {
     SDLTexture m_texture;
@@ -56,16 +55,11 @@ public:
     }
 };
 
-TextRenderer::TextRenderer(const std::string& fontFile, const SDLRenderer& renderer)
-: m_Impl(std::make_unique<TextRendererImpl>(fontFile, renderer))
-{
-    
-}
 
-TextRenderer::~TextRenderer()
-{
-    m_Impl.release();
-}
+TextRenderer::TextRenderer(const std::string& fontFile, const SDLRenderer& renderer)
+: m_Impl(std::make_unique<TextRendererImpl>(fontFile, renderer)) { }
+
+TextRenderer::~TextRenderer() { m_Impl.release(); }
 
 void TextRenderer::PrintCharacter(unsigned char c, int x, int y, Color color) const
 {
