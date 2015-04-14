@@ -19,6 +19,12 @@
     <Filter Include="Header Files\SDL">
       <UniqueIdentifier>{52a84c72-2c76-46d6-aa66-b6abd4283c93}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Utilities">
+      <UniqueIdentifier>{5f31d417-2ff5-49d0-946a-adb2abb903a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utilities">
+      <UniqueIdentifier>{6e479c6c-aa72-4338-a1bb-7d7530988c77}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -33,9 +39,6 @@
     <ClCompile Include="PngLoader.cpp">
       <Filter>Source Files\SDL</Filter>
     </ClCompile>
-    <ClCompile Include="TextRenderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SDLRenderer.cpp">
       <Filter>Source Files\SDL</Filter>
     </ClCompile>
@@ -46,6 +49,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FPS.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="TextRenderer.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="MapRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -58,9 +67,6 @@
     </ClInclude>
     <ClInclude Include="SDLWrapper.h">
       <Filter>Header Files\SDL</Filter>
-    </ClInclude>
-    <ClInclude Include="TextRenderer.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SDLRect.h">
       <Filter>Header Files\SDL</Filter>
@@ -78,6 +84,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FPS.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="TextRenderer.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="MapRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
