@@ -2,16 +2,19 @@
 #include "PngLoader.h"
 #include "SDLRect.h"
 #include "Color.h"
+#include "SDLRenderer.h"
 
-TextRenderer::TextRenderer(const std::string& fontFile)
+TextRenderer::TextRenderer(const std::string& fontFile, const SDLRenderer& renderer) : m_renderer(renderer)
 {
     PNGLoader loader;
-    m_surface = SDLSurface(loader.Load(fontFile));
+    auto surface = SDLSurface(loader.Load(fontFile));
+
+    m_texture = surface.CreateAsTexture(renderer);
 
     // We assume it's a 16x16 grid of characters
 
-    m_characterHeight = m_surface.Height() / 16;
-    m_characterWidth = m_surface.Width() / 16;
+    m_characterHeight = surface.Height() / 16;
+    m_characterWidth = surface.Width() / 16;
 }
 
 TextRenderer::~TextRenderer()
@@ -24,5 +27,6 @@ void TextRenderer::RenderCharacter(unsigned char c, int x, int y, const SDLSurfa
     auto cy = c / 16;
     auto srcRect = SDLRect(cx * m_characterHeight, cy * m_characterWidth, m_characterHeight, m_characterWidth);
     auto destRect = SDLRect(x, y, m_characterHeight, m_characterWidth);
-    target.ColorBlit(m_surface, srcRect, destRect, color);
+
+    m_renderer.RenderCopy(m_texture, srcRect, destRect);
 }

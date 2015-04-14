@@ -5,11 +5,13 @@
 
 class TextRenderer
 {
-    SDLSurface m_surface;
     int m_characterHeight;
     int m_characterWidth;
+    
+    SDLTexture m_texture;
+    const SDLRenderer& m_renderer;
 public:
-    explicit TextRenderer(const std::string& fontFile);
+    TextRenderer(const std::string& fontFile, const SDLRenderer& renderer);
     ~TextRenderer();
 
     void RenderCharacter(unsigned char c, int x, int y, const SDLSurface& target, Color color);

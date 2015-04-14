@@ -14,15 +14,19 @@ int main(int argc, char* argv [])
         SDLWrapper wrapper(SCREEN_WIDTH, SCREEN_HEIGHT);
         PNGLoader pngLoader;
 
+        auto &renderer = wrapper.Renderer();
         auto &screenSurface = wrapper.ScreenSurface();
 
-        auto textRenderer = TextRenderer("images/CLA.png");
+
+        renderer.Clear();
+
+        auto textRenderer = TextRenderer("images/CLA.png", renderer);
+
 
         textRenderer.RenderCharacter('r', 32, 32, screenSurface, Color(255,0,0));
         textRenderer.RenderCharacter('g', 48, 32, screenSurface, Color(0,255,0));
         textRenderer.RenderCharacter('b', 64, 32, screenSurface, Color(0,0,255));
-
-        wrapper.Update();
+        renderer.Present();
 
         auto quit = false;
         while (!quit)
