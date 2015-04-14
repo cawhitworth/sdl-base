@@ -17,8 +17,6 @@ int main(int argc, char* argv [])
         PNGLoader pngLoader;
 
         auto &renderer = wrapper.Renderer();
-        auto &screenSurface = wrapper.ScreenSurface();
-
 
         renderer.Clear();
 
@@ -31,8 +29,8 @@ int main(int argc, char* argv [])
         auto quit = false;
         auto frame = 0;
         auto start = std::chrono::high_resolution_clock::now();
-        std::chrono::seconds one_second(1);
         auto fps = 0;
+        std::chrono::seconds one_second(1);
         while (!quit)
         {
             SDL_Event e;
