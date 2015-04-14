@@ -13,6 +13,8 @@ public:
     explicit MapRenderer(const TextRenderer&, const Map& map);
     ~MapRenderer();
 
+    MapRenderer& operator=(const MapRenderer&) = delete;
+
     void Render(int x, int y, int w, int h);
 
 };

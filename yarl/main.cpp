@@ -13,8 +13,10 @@
 #include "Map.h"
 #include "MapRenderer.h"
 
-int main(int argc, char* argv [])
+#pragma warning(disable: 4100)
+int main(int argc, char* argv[])
 {
+
     try {
         Map m(200, 200);
         SDLWrapper wrapper(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -60,3 +62,4 @@ int main(int argc, char* argv [])
     }
     return 0;
 }
+#pragma warning(default: 4100)

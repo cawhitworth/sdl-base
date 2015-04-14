@@ -13,7 +13,7 @@ MapRenderer::MapRenderer(const TextRenderer& textRenderer, const Map& map)
 
     for (int i = 0; i < m_map.Width() * m_map.Height(); i++)
     {
-        m_varianceMap.push_back(distribution(generator));
+        m_varianceMap.push_back(static_cast<unsigned char>(distribution(generator)));
     }
 }
 
@@ -51,7 +51,6 @@ void MapRenderer::Render(int x, int y, int w, int h)
             color.r = (color.r * vmap) / 4;
             color.g = (color.g * vmap) / 4;
             color.b = (color.b * vmap) / 4;
-
 
             m_textRenderer.PrintCharacter(ch, rx, ry, color);
         }
