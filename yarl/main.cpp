@@ -1,4 +1,5 @@
 #include <iostream>
+#include <chrono>
 
 #include "SDLWrapper.h"
 #include "PNGLoader.h"
@@ -7,6 +8,7 @@
 #define SCREEN_HEIGHT 480
 #include "TextRenderer.h"
 #include "Color.h"
+#include <sstream>
 
 int main(int argc, char* argv [])
 {
@@ -30,6 +32,10 @@ int main(int argc, char* argv [])
         renderer.Present();
 
         auto quit = false;
+        auto frame = 0;
+        auto start = std::chrono::high_resolution_clock::now();
+        std::chrono::seconds one_second(1);
+        auto fps = 0;
         while (!quit)
         {
             SDL_Event e;
@@ -39,6 +45,24 @@ int main(int argc, char* argv [])
                 {
                     quit = true;
                 }
+            }
+
+            renderer.Clear();
+            std::stringstream fpsText;
+            fpsText << fps << "FPS";
+
+            textRenderer.PrintString(fpsText.str(), 0, 0, Color(200, 255, 200));
+            ;
+            textRenderer.PrintString("Yet Another Rogue-like", 5, 2, Color(200, 200, 200));
+
+            renderer.Present();
+
+            frame++;
+            if (std::chrono::high_resolution_clock::now() - start > one_second)
+            {
+                fps = frame;
+                frame = 0;
+                start = std::chrono::high_resolution_clock::now();
             }
         }
     }
