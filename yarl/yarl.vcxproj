@@ -94,6 +94,7 @@
     <ClCompile Include="TextRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BasicTypes.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="FPS.h" />
     <ClInclude Include="Map.h" />
