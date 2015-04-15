@@ -6,7 +6,7 @@ Map::Map(Size s)
     MapCell c;
     c.type = Rock;
 
-    m_Cells.resize(s.w * s.h, c);
+    m_Cells.resize(s.Area(), c);
 }
 
 Map::~Map()

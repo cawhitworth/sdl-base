@@ -49,7 +49,9 @@ void MapRenderer::Render(Position p, Size s)
                 default: break;
             }
 
-            auto vmap = m_varianceMap[rp.x + rp.y * m_map.GetSize().w];
+            auto offset = OffsetOf(rp, m_map.GetSize());
+            auto vmap = m_varianceMap[offset];
+
             color.r = (color.r * vmap) / 4;
             color.g = (color.g * vmap) / 4;
             color.b = (color.b * vmap) / 4;

@@ -24,8 +24,10 @@ int main(int argc, char* argv[])
 
         auto &renderer = wrapper.Renderer();
         auto textRenderer = TextRenderer("images/CLA.png", renderer);
+        auto charSize = textRenderer.CharSize();
         MapRenderer mapRenderer(textRenderer, m);
-        Size viewPort(SCREEN_WIDTH / textRenderer.CharSize().w, SCREEN_HEIGHT / textRenderer.CharSize().h);
+
+        Size viewPort(SCREEN_WIDTH / charSize.w, SCREEN_HEIGHT / charSize.h);
 
         FPS fps;
 

@@ -27,7 +27,7 @@ public:
     Map(const Map&) = delete;
     Map& operator=(const Map&) = delete;
 
-    const MapCell& operator[](Position p) const { return m_Cells[p.x + p.y*m_size.w]; }
+    const MapCell& operator[](Position p) const { return m_Cells[OffsetOf(p, m_size)]; }
 
     const Size& GetSize() const { return m_size; }
 };
