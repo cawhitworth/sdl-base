@@ -32,6 +32,8 @@ int main(int argc, char* argv[])
 
         FPS fps;
 
+        AddDungeonHeart(m, Position(8, 8));
+
         auto quit = false;
         while (!quit)
         {

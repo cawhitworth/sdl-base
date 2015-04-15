@@ -38,13 +38,25 @@ void MapRenderer::Render(Position p, Size s)
                     ch = '*';
                     color = Color(150, 100, 0);
                     break;
-                case Floor:
-                    ch = '.';
+                case StoneFloor:
+                    ch = 249;
+                    color = Color(192, 192, 192);
+                    break;
+                case DirtFloor:
+                    ch = 249;
                     color = Color(150, 100, 0);
                     break;
                 case Wall: 
                     ch = '#';
                     color = Color(150, 100, 0);
+                    break;
+                case Lava:
+                    ch = '~';
+                    color = Color(255, 100, 0);
+                    break;
+                case Heart:
+                    ch = 3;
+                    color = Color(255, 0, 0);
                     break;
                 default: break;
             }
