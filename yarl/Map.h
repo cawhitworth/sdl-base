@@ -1,5 +1,7 @@
 #pragma once
+
 #include <vector>
+#include "BasicTypes.h"
 
 typedef enum
 {
@@ -16,20 +18,18 @@ struct MapCell
 class Map
 {
     std::vector<MapCell> m_Cells;
-    int m_height;
-    int m_width;
-
+    Size m_size;
 public:
-    Map(int height, int width);
+    Map(Size s);
     ~Map();
 
     // Oh no you don't
     Map(const Map&) = delete;
     Map& operator=(const Map&) = delete;
 
-    const MapCell& operator[](int offset) const { return m_Cells[offset]; }
+    const MapCell& operator[](Position p) const { return m_Cells[p.x + p.y*m_size.w]; }
 
-    int Width() const { return m_width; }
-    int Height() const { return m_height; }
+    const Size& GetSize() const { return m_size; }
 };
 
+void AddDungeonHeart(Map& map, Position position);

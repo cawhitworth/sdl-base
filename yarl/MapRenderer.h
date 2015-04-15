@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include "BasicTypes.h"
 
 class Map;
 class TextRenderer;
@@ -15,7 +16,7 @@ public:
 
     MapRenderer& operator=(const MapRenderer&) = delete;
 
-    void Render(int x, int y, int w, int h);
+    void Render(Position p, Size s);
 
 };
 

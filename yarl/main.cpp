@@ -18,12 +18,14 @@ int main(int argc, char* argv[])
 {
 
     try {
-        Map m(200, 200);
+        Position origin(0, 0);
+        Map m(Size(200, 200));
         SDLWrapper wrapper(SCREEN_WIDTH, SCREEN_HEIGHT);
 
         auto &renderer = wrapper.Renderer();
         auto textRenderer = TextRenderer("images/CLA.png", renderer);
         MapRenderer mapRenderer(textRenderer, m);
+        Size viewPort(SCREEN_WIDTH / textRenderer.CharSize().w, SCREEN_HEIGHT / textRenderer.CharSize().h);
 
         FPS fps;
 
@@ -43,13 +45,14 @@ int main(int argc, char* argv[])
 
             renderer.Clear();
 
-            mapRenderer.Render(0, 0, SCREEN_WIDTH / textRenderer.CharWidth(), SCREEN_HEIGHT / textRenderer.CharHeight());
+
+            mapRenderer.Render(origin, viewPort);
 
             std::stringstream fpsText;
             fpsText << fps.Fps() << "FPS";
 
-            textRenderer.PrintString(fpsText.str(), 0, 0, Color(200, 255, 200));
-            textRenderer.PrintString("Yet Another Rogue-like", 5, 2, Color(200, 200, 200));
+            textRenderer.PrintString(fpsText.str(), origin, Color(200, 255, 200));
+            textRenderer.PrintString("Yet Another Rogue-like", Position(5,2), Color(200, 200, 200));
 
             renderer.Present();
 

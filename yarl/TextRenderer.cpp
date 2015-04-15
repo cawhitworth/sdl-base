@@ -10,8 +10,7 @@ class TextRendererImpl
     const SDLRenderer& m_renderer;
 
 public:
-    int m_characterHeight;
-    int m_characterWidth;
+    Size m_characterSize;
     
     TextRendererImpl(const std::string& fontFile, const SDLRenderer& renderer) : m_renderer(renderer)
     {
@@ -22,34 +21,34 @@ public:
 
         // We assume it's a 16x16 grid of characters
 
-        m_characterHeight = surface.Height() / 16;
-        m_characterWidth = surface.Width() / 16;
+        m_characterSize = Size(surface.GetSize().w / 16, surface.GetSize().h / 16);
 
     }
     ~TextRendererImpl() {}
 
-    void PrintCharacter(unsigned char c, int x, int y, Color color) const
+    void PrintCharacter(unsigned char c, Position p, Color color) const
     {
-        auto rx = x * m_characterHeight;
-        auto ry = y * m_characterHeight;
-        RenderCharacter(c, rx, ry, color);
+        Position renderPos(p.x * m_characterSize.w, p.y * m_characterSize.h);
+        RenderCharacter(c, renderPos, color);
     }
 
-    void PrintString(std::string string, int x, int y, Color color) const
+    void PrintString(std::string string, Position p, Color color) const
     {
         for (auto&& c : string)
         {
-            PrintCharacter(c, x, y, color);
-            x++;
+            PrintCharacter(c, p, color);
+            p.x++;
         }
     }
 
-    void RenderCharacter(unsigned char c, int x, int y, Color color) const
+    void RenderCharacter(unsigned char c, Position p, Color color) const
     {
         auto cx = c % 16;
         auto cy = c / 16;
-        auto srcRect = SDLRect(cx * m_characterHeight, cy * m_characterWidth, m_characterHeight, m_characterWidth);
-        auto destRect = SDLRect(x, y, m_characterHeight, m_characterWidth);
+        auto cp = Position(cx * m_characterSize.w, cy * m_characterSize.h);
+
+        auto srcRect = SDLRect(cp, m_characterSize);
+        auto destRect = SDLRect(p, m_characterSize);
 
         m_renderer.RenderCopyColor(m_texture, srcRect, destRect, color);
     }
@@ -61,22 +60,17 @@ TextRenderer::TextRenderer(const std::string& fontFile, const SDLRenderer& rende
 
 TextRenderer::~TextRenderer() { m_Impl.release(); }
 
-void TextRenderer::PrintCharacter(unsigned char c, int x, int y, Color color) const
+void TextRenderer::PrintCharacter(unsigned char c, Position p, Color color) const
 {
-    m_Impl->PrintCharacter(c, x, y, color);
+    m_Impl->PrintCharacter(c, p, color);
 }
 
-void TextRenderer::PrintString(std::string string, int x, int y, Color color) const
+void TextRenderer::PrintString(std::string string, Position p, Color color) const
 {
-    m_Impl->PrintString(string, x, y, color);
+    m_Impl->PrintString(string, p, color);
 }
 
-int TextRenderer::CharHeight() const
+const Size& TextRenderer::CharSize() const
 {
-    return m_Impl->m_characterHeight;
-}
-
-int TextRenderer::CharWidth() const
-{
-    return m_Impl->m_characterWidth;
+    return m_Impl->m_characterSize;
 }
