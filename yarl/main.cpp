@@ -20,10 +20,11 @@ int main(int argc, char* argv[])
     try {
         Position origin(0, 0);
         Map m(Size(200, 200));
+
         SDLWrapper wrapper(SCREEN_WIDTH, SCREEN_HEIGHT);
 
         auto &renderer = wrapper.Renderer();
-        auto textRenderer = TextRenderer("images/CLA.png", renderer);
+        auto textRenderer = TextRenderer("images/Teeto_K_18x18.PNG", renderer);
         auto charSize = textRenderer.CharSize();
         MapRenderer mapRenderer(textRenderer, m);
 
