@@ -1,5 +1,6 @@
 #include "Imp.h"
 #include <random>
+#include "Map.h"
 
 std::default_random_engine generator;
 std::uniform_int_distribution<int> distribution(1, 4);
@@ -20,6 +21,9 @@ void Imp::Update(std::chrono::milliseconds updateDuration)
         case 4: newLocation.y -= 1; break;
         }
 
-        m_location = newLocation;
+        if (m_map.CanMoveTo(newLocation))
+        {
+            m_location = newLocation;
+        }
     }
 }
