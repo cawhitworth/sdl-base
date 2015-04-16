@@ -17,13 +17,13 @@ void AddDungeonHeart(Map& map, Position position)
 {
     map[position] = MapCell(Heart);
     Position p;
-    for (p.x = position.x - 4; p.x < position.x + 5; p.x++)
+    for (p.x = position.x - 5; p.x < position.x + 6; p.x++)
     {
-        for (p.y = position.y - 4; p.y < position.y + 5; p.y++)
+        for (p.y = position.y - 5; p.y < position.y + 6; p.y++)
         {
             MapCell c(StoneFloor);
 
-            if (Distance(p, position) > 3 || p == position)
+            if (Distance(p, position) > 4 || p == position)
             {
                 continue;
             }
