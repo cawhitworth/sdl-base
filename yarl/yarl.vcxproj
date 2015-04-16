@@ -96,6 +96,7 @@
   <ItemGroup>
     <ClInclude Include="BasicTypes.h" />
     <ClInclude Include="Color.h" />
+    <ClInclude Include="Entity.h" />
     <ClInclude Include="FPS.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MapRenderer.h" />
