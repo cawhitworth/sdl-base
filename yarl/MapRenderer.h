@@ -1,15 +1,14 @@
 #pragma once
-#include <vector>
 #include "BasicTypes.h"
+#include <memory>
 
 class Map;
 class TextRenderer;
+class MapRendererImpl;
 
 class MapRenderer
 {
-    const TextRenderer& m_textRenderer;
-    const Map& m_map;
-    std::vector<unsigned char> m_varianceMap;
+    std::unique_ptr<MapRendererImpl> m_Impl;
 public:
     explicit MapRenderer(const TextRenderer&, const Map& map);
     ~MapRenderer();

@@ -1,20 +1,100 @@
+#include <random>
+#include <map>
+
 #include "MapRenderer.h"
 #include "Map.h"
-#include <random>
 #include "Color.h"
 #include "TextRenderer.h"
+#include <algorithm>
+
+struct CellRenderInfo
+{
+    CellRenderInfo() 
+        : minVariance(1), maxVariance(4), c(' '), col(Color(255, 255, 255)) {}
+    CellRenderInfo(unsigned char c, Color col) 
+        : minVariance(1), maxVariance(4), c(c), col(col) {}
+    CellRenderInfo(unsigned char c, Color col, unsigned char minVariance, unsigned char maxVariance) 
+        : minVariance(minVariance), maxVariance(maxVariance), c(c), col(col) {}
+
+    unsigned char minVariance;
+    unsigned char maxVariance;
+    unsigned char c;
+    Color col;
+};
+
+class MapRendererImpl
+{
+
+    const TextRenderer& m_textRenderer;
+    const Map& m_map;
+    std::vector<unsigned char> m_varianceMap;
+    std::map<CellType, CellRenderInfo> m_appearance;
+
+public:
+    explicit MapRendererImpl(const TextRenderer& textRenderer, const Map& map)
+        : m_textRenderer(textRenderer)
+        , m_map(map)
+    {
+        std::default_random_engine generator;
+        std::uniform_int_distribution<int> distribution(1, 4);
+
+        for (CoordType i = 0; i < m_map.GetSize().w * m_map.GetSize().h; i++)
+        {
+            m_varianceMap.push_back(static_cast<unsigned char>(distribution(generator)));
+        }
+
+        m_appearance[Rock] = CellRenderInfo('*', Color(150, 80, 0));
+        m_appearance[StoneFloor] = CellRenderInfo(249, Color(192, 192, 192));
+        m_appearance[DirtFloor] = CellRenderInfo(249, Color(100, 75, 0));
+        m_appearance[Wall] = CellRenderInfo('#', Color(192, 192, 192));
+        m_appearance[Lava] = CellRenderInfo('~', Color(255, 175, 0), 3, 4);
+        m_appearance[Heart] = CellRenderInfo(3, Color(255, 0, 0), 4, 4);
+
+    }
+
+    ~MapRendererImpl()
+    {}
+
+    MapRendererImpl& operator=(const MapRendererImpl&) = delete;
+
+    void Render(Position p, Size s)
+    {
+
+        Position rp;
+
+        for (rp.x = p.x; rp.x < p.x + s.w; rp.x++)
+        {
+            for (rp.y = p.y; rp.y < p.y + s.h; rp.y++)
+            {
+                CellRenderInfo ri;
+
+                auto appearance = m_appearance.find(m_map[rp].type);
+                if (appearance != m_appearance.end())
+                {
+                    ri = appearance->second;
+                }
+
+                Color color(ri.col);
+
+                auto offset = OffsetOf(rp, m_map.GetSize());
+                auto vmap = m_varianceMap[offset];
+                vmap = std::max(vmap, ri.minVariance);
+                vmap = std::min(vmap, ri.maxVariance);
+
+                color.r = (color.r * vmap) / 4;
+                color.g = (color.g * vmap) / 4;
+                color.b = (color.b * vmap) / 4;
+
+                m_textRenderer.PrintCharacter(ri.c, rp, color);
+            }
+        }
+    }
+};
+
 
 MapRenderer::MapRenderer(const TextRenderer& textRenderer, const Map& map)
-: m_textRenderer(textRenderer)
-, m_map(map)
 {
-    std::default_random_engine generator;
-    std::uniform_int_distribution<int> distribution(1, 4);
-
-    for (CoordType i = 0; i < m_map.GetSize().w * m_map.GetSize().h; i++)
-    {
-        m_varianceMap.push_back(static_cast<unsigned char>(distribution(generator)));
-    }
+    m_Impl = std::make_unique<MapRendererImpl>(textRenderer, map);
 }
 
 MapRenderer::~MapRenderer()
@@ -23,52 +103,5 @@ MapRenderer::~MapRenderer()
 
 void MapRenderer::Render(Position p, Size s)
 {
-    Position rp;
-
-    for (rp.x = p.x; rp.x < p.x + s.w; rp.x++)
-    {
-        for (rp.y = p.y; rp.y < p.y + s.h; rp.y++)
-        {
-            Color color(255,255,255);
-            unsigned char ch = '?';
-            
-            switch (m_map[rp].type)
-            {
-                case Rock: 
-                    ch = '*';
-                    color = Color(150, 100, 0);
-                    break;
-                case StoneFloor:
-                    ch = 249;
-                    color = Color(192, 192, 192);
-                    break;
-                case DirtFloor:
-                    ch = 249;
-                    color = Color(150, 100, 0);
-                    break;
-                case Wall: 
-                    ch = '#';
-                    color = Color(150, 100, 0);
-                    break;
-                case Lava:
-                    ch = '~';
-                    color = Color(255, 100, 0);
-                    break;
-                case Heart:
-                    ch = 3;
-                    color = Color(255, 0, 0);
-                    break;
-                default: break;
-            }
-
-            auto offset = OffsetOf(rp, m_map.GetSize());
-            auto vmap = m_varianceMap[offset];
-
-            color.r = (color.r * vmap) / 4;
-            color.g = (color.g * vmap) / 4;
-            color.b = (color.b * vmap) / 4;
-
-            m_textRenderer.PrintCharacter(ch, rp, color);
-        }
-    }
+    m_Impl->Render(p, s);
 }
