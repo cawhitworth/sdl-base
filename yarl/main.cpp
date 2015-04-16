@@ -15,6 +15,7 @@
 
 #include "Imp.h"
 #include "ImpRenderer.h"
+#include <algorithm>
 
 using namespace std::chrono;
 
@@ -48,6 +49,8 @@ int main(int argc, char* argv[])
 
         auto last = high_resolution_clock::now();
 
+        auto mapOrigin = origin;
+
         auto quit = false;
         while (!quit)
         {
@@ -60,11 +63,34 @@ int main(int argc, char* argv[])
                 {
                     quit = true;
                 }
+
+                if (e.type == SDL_KEYUP)
+                {
+                    switch (e.key.keysym.sym)
+                    {
+                    case SDLK_ESCAPE:
+                        quit = true;
+                        break;
+                    case SDLK_UP:
+                        mapOrigin.y = std::max(CoordType(0), mapOrigin.y - 1); break;
+                    case SDLK_DOWN:
+                        mapOrigin.y = std::min(CoordType(200), mapOrigin.y + 1); break; // WRONG!
+                    case SDLK_LEFT:
+                        mapOrigin.x = std::max(CoordType(0), mapOrigin.x - 1); break;
+                    case SDLK_RIGHT:
+                        mapOrigin.x = std::min(CoordType(200), mapOrigin.x + 1); break; // WRONG!
+                    }
+                    if (e.key.keysym.sym == SDLK_ESCAPE)
+                    {
+                        quit = true;
+                    }
+
+                }
             }
 
             renderer.Clear();
 
-            mapRenderer.Render(origin, viewPort);
+            mapRenderer.Render(mapOrigin, viewPort);
 
             auto elapsed = duration_cast<milliseconds>(high_resolution_clock::now() - last);
             last = high_resolution_clock::now();
@@ -72,6 +98,7 @@ int main(int argc, char* argv[])
             for (auto& i : imps)
             {
                 i.Update(elapsed);
+                impRenderer.SetOrigin(mapOrigin);
                 impRenderer.Render(i);
             }
 
