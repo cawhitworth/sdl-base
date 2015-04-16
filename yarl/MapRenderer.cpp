@@ -60,15 +60,17 @@ public:
     void Render(Position p, Size s)
     {
 
-        Position rp;
+        Position mapPos;
+        Position screenPos;
 
-        for (rp.x = p.x; rp.x < p.x + s.w; rp.x++)
+
+        for (mapPos.x = p.x, screenPos.x = 0; mapPos.x < p.x + s.w; mapPos.x++, screenPos.x++)
         {
-            for (rp.y = p.y; rp.y < p.y + s.h; rp.y++)
+            for (mapPos.y = p.y, screenPos.y = 0; mapPos.y < p.y + s.h; mapPos.y++, screenPos.y++)
             {
                 CellRenderInfo ri;
 
-                auto appearance = m_appearance.find(m_map[rp].type);
+                auto appearance = m_appearance.find(m_map[mapPos].type);
                 if (appearance != m_appearance.end())
                 {
                     ri = appearance->second;
@@ -76,7 +78,7 @@ public:
 
                 Color color(ri.col);
 
-                auto offset = OffsetOf(rp, m_map.GetSize());
+                auto offset = OffsetOf(mapPos, m_map.GetSize());
                 auto vmap = m_varianceMap[offset];
                 vmap = std::max(vmap, ri.minVariance);
                 vmap = std::min(vmap, ri.maxVariance);
@@ -85,7 +87,7 @@ public:
                 color.g = (color.g * vmap) / 4;
                 color.b = (color.b * vmap) / 4;
 
-                m_textRenderer.PrintCharacter(ri.c, rp, color);
+                m_textRenderer.PrintCharacter(ri.c, screenPos, color);
             }
         }
     }
