@@ -40,7 +40,11 @@ int main(int argc, char* argv[])
         FPS fps;
 
         AddDungeonHeart(m, Position(8, 8));
-        imps.push_back(Imp(m, Position(5, 5)));
+
+        for (int i = 0; i < 5; i++)
+        {
+            imps.push_back(Imp(m, Position(5, 5)));
+        }
 
         auto last = high_resolution_clock::now();
 
