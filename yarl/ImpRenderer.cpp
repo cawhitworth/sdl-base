@@ -5,5 +5,8 @@
 
 void ImpRenderer::Render(const Imp& imp)
 {
-    m_renderer.PrintCharacter('I', imp.Location(), Color(0, 255, 0));
+    auto location = imp.Location();
+    location.x -= m_mapOrigin.x;
+    location.y -= m_mapOrigin.y;
+    m_renderer.PrintCharacter('I', location, Color(0, 255, 0));
 }
