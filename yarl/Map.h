@@ -38,6 +38,8 @@ public:
     const MapCell& operator[](Position p) const { return m_Cells[OffsetOf(p, m_size)]; }
 
     const Size& GetSize() const { return m_size; }
+
+    bool CanMoveTo(Position position);
 };
 
 void AddDungeonHeart(Map& map, Position position);

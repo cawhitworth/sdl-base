@@ -13,6 +13,12 @@ Map::~Map()
 {
 }
 
+bool Map::CanMoveTo(Position position)
+{
+    auto passableTypes = { StoneFloor, DirtFloor };
+    return std::find(passableTypes.begin(), passableTypes.end(), m_Cells[OffsetOf(position, m_size)].type) != passableTypes.end();
+}
+
 void AddDungeonHeart(Map& map, Position position)
 {
     map[position] = MapCell(Heart);
