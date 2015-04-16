@@ -84,6 +84,7 @@
   <ItemGroup>
     <ClCompile Include="FPS.cpp" />
     <ClCompile Include="Imp.cpp" />
+    <ClCompile Include="ImpRenderer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapRenderer.cpp" />
@@ -100,6 +101,7 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="FPS.h" />
     <ClInclude Include="Imp.h" />
+    <ClInclude Include="ImpRenderer.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MapRenderer.h" />
     <ClInclude Include="PngLoader.h" />

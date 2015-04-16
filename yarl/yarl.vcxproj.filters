@@ -60,6 +60,9 @@
     <ClCompile Include="Imp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ImpRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PngLoader.h">
@@ -102,6 +105,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Imp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ImpRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
