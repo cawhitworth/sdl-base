@@ -22,7 +22,7 @@ SDLWrapper::SDLWrapper(int w, int h)
         throw std::exception(err.str().c_str());
     }
 
-    auto renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
+    auto renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     if (SDL_RenderClear(renderer) < 0)
     {
         err << SDL_GetError();

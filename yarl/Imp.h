@@ -13,7 +13,6 @@ class Imp :
     std::chrono::milliseconds m_elapsed;
     std::chrono::milliseconds m_speed;
 
-
 public:
     explicit Imp(Map& map, Position location) : m_location(location), m_map(map)
     {
