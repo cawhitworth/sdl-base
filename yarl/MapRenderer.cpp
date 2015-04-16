@@ -1,16 +1,16 @@
 #include <random>
+#include <algorithm>
 #include <map>
 
 #include "MapRenderer.h"
 #include "Map.h"
 #include "Color.h"
 #include "TextRenderer.h"
-#include <algorithm>
 
 struct CellRenderInfo
 {
     CellRenderInfo() 
-        : minVariance(1), maxVariance(4), c(' '), col(Color(255, 255, 255)) {}
+        : minVariance(4), maxVariance(4), c('?'), col(Color(255, 255, 255)) {}
     CellRenderInfo(unsigned char c, Color col) 
         : minVariance(1), maxVariance(4), c(c), col(col) {}
     CellRenderInfo(unsigned char c, Color col, unsigned char minVariance, unsigned char maxVariance) 
