@@ -60,7 +60,7 @@ inline T Distance(Position_T<T> p1, Position_T<T> p2)
     return static_cast<T>(sqrt(sumSq));
 }
 
-using CoordType = unsigned int;
+using CoordType = int;
 
 using Size = Size_T<CoordType>;
 using Position = Position_T<CoordType>;
