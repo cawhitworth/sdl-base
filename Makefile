@@ -10,7 +10,11 @@ LIBPATH=-L/usr/lib/x86_64-linux-gnu
 
 CXXOPTS=-std=c++1y -stdlib=libc++
 
-SOURCES=yarl/FPS.cpp yarl/Imp.cpp yarl/ImpRenderer.cpp yarl/Map.cpp yarl/MapRenderer.cpp yarl/PngLoader.cpp yarl/SDLRenderer.cpp yarl/SDLSurface.cpp yarl/SDLTexture.cpp yarl/SDLWrapper.cpp yarl/TextRenderer.cpp yarl/main.cpp
+SOURCES=yarl/FPS.cpp yarl/Imp.cpp yarl/ImpRenderer.cpp yarl/Map.cpp \
+	   	yarl/MapRenderer.cpp yarl/PngLoader.cpp yarl/SDLRenderer.cpp \
+		yarl/SDLSurface.cpp yarl/SDLTexture.cpp yarl/SDLWrapper.cpp \
+		yarl/TextRenderer.cpp \
+		yarl/main.cpp
 
 OBJS=$(SOURCES:$(SRC_PATH)/%.cpp=$(BIN_PATH)/%.o)
 DEPS=$(OBJS:.o=.d)
