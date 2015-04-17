@@ -8,7 +8,7 @@ INC=-I/usr/include/SDL2 -I$(SRC_PATH)
 LIBS=-lSDL2 -lSDL2_image
 LIBPATH=-L/usr/lib/x86_64-linux-gnu
 
-CXXOPTS=-std=c++1y -stdlib=libc++
+CXXOPTS=-std=c++1y -stdlib=libc++ -O2
 
 SOURCES=yarl/FPS.cpp yarl/Imp.cpp yarl/ImpRenderer.cpp yarl/Map.cpp \
 	   	yarl/MapRenderer.cpp yarl/PngLoader.cpp yarl/SDLRenderer.cpp \
