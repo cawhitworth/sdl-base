@@ -1,2 +1,6 @@
 *.opensdf
 *.sdf
+*.swp
+*~
+yarlpp
+build/

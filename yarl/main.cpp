@@ -2,7 +2,7 @@
 #include <chrono>
 
 #include "SDLWrapper.h"
-#include "PNGLoader.h"
+#include "PngLoader.h"
 
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480

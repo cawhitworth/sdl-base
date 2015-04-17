@@ -2,6 +2,7 @@
 #include "SDLRect.h"
 #include "Color.h"
 #include "SDLRenderer.h"
+#include "SDLException.h"
 #include <sstream>
 
 SDLSurface::~SDLSurface()
@@ -20,14 +21,14 @@ SDLTexture SDLSurface::CreateAsTexture(const SDLRenderer& renderer) const
     {
         std::stringstream err;
         err << "Could not create texture: " << SDL_GetError();
-        throw std::exception(err.str().c_str());
+        throw SDLException(err.str().c_str());
     }
     return SDLTexture(texture);
 }
 
 void SDLSurface::OptimizeFor(const SDLSurface& screenSurface)
 {
-    auto optimizedSurface = SDL_ConvertSurface(m_surface, screenSurface.m_surface->format, NULL);
+    auto optimizedSurface = SDL_ConvertSurface(m_surface, screenSurface.m_surface->format, 0);
     SDL_FreeSurface(m_surface);
     m_surface = optimizedSurface;
 }

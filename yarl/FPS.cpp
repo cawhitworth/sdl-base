@@ -6,7 +6,7 @@ using namespace std::chrono;
 class FPSImpl
 {
     int m_frame;
-    system_clock::time_point m_start;
+    time_point<high_resolution_clock> m_start;
     seconds one_second = seconds(1);
 
 public:

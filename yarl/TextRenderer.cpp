@@ -1,10 +1,11 @@
+#include <memory>
 #include "TextRenderer.h"
 #include "PngLoader.h"
 #include "SDLRect.h"
 #include "Color.h"
 #include "SDLRenderer.h"
 
-class TextRendererImpl
+class TextRenderer::TextRendererImpl
 {
     SDLTexture m_texture;
     const SDLRenderer& m_renderer;
@@ -56,9 +57,13 @@ public:
 
 
 TextRenderer::TextRenderer(const std::string& fontFile, const SDLRenderer& renderer)
-: m_Impl(std::make_unique<TextRendererImpl>(fontFile, renderer)) { }
+: m_Impl(std::make_unique<TextRenderer::TextRendererImpl>(fontFile, renderer)) { }
 
 TextRenderer::~TextRenderer() { m_Impl.release(); }
+
+TextRenderer::TextRenderer(TextRenderer&& r)
+    : m_Impl(std::move(r.m_Impl))
+{}
 
 void TextRenderer::PrintCharacter(unsigned char c, Position p, Color color) const
 {
