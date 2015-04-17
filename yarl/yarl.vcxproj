@@ -105,6 +105,7 @@
     <ClInclude Include="Map.h" />
     <ClInclude Include="MapRenderer.h" />
     <ClInclude Include="PngLoader.h" />
+    <ClInclude Include="SDLException.h" />
     <ClInclude Include="SDLRect.h" />
     <ClInclude Include="SDLRenderer.h" />
     <ClInclude Include="SDLSurface.h" />

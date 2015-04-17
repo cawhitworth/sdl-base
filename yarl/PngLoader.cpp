@@ -9,7 +9,7 @@ PNGLoader::PNGLoader()
     if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG))
     {
         err << "Cannot init PNG loader: " << IMG_GetError();
-        throw std::exception(err.str().c_str());
+        throw SDLException(err.str().c_str());
     }
 }
 
@@ -25,7 +25,7 @@ SDLSurface PNGLoader::Load(std::string path)
     if (loadedSurface == nullptr)
     {
         err << "Cannot load PNG '" << path << "' - " << IMG_GetError();
-        throw std::exception(err.str().c_str());
+        throw SDLException(err.str().c_str());
     }
 
     auto surface = SDLSurface(loadedSurface);

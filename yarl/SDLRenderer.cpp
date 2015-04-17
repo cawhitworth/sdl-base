@@ -22,7 +22,7 @@ void SDLRenderer::RenderCopyColor(const SDLTexture& texture, SDLRect& srcRect, S
     {
         std::stringstream err;
         err << "Failed render copy: " << SDL_GetError();
-        throw std::exception(err.str().c_str());
+        throw SDLException(err.str().c_str());
     }
 }
 
@@ -37,6 +37,6 @@ void SDLRenderer::Clear() const
     {
         std::stringstream err;
         err << "Failed to clear renderer: " << SDL_GetError();
-        throw std::exception(err.str().c_str());
+        throw SDLException(err.str().c_str());
     }
 }

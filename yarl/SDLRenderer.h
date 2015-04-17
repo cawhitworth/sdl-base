@@ -2,6 +2,7 @@
 #include <SDL.h>
 #include "TextRenderer.h"
 #include "Color.h"
+#include "SDLException.h"
 struct SDL_Renderer;
 
 class SDLRenderer
@@ -15,7 +16,7 @@ public:
     {
         if (SDL_RenderClear(renderer))
         {
-            throw std::exception(SDL_GetError());
+            throw SDLException(SDL_GetError());
         }
     }
 

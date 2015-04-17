@@ -3,6 +3,7 @@
 #include <iostream>
 #include "SDLTexture.h"
 #include "BasicTypes.h"
+#include "SDLException.h"
 
 class SDLRenderer;
 struct Color;
@@ -41,7 +42,7 @@ public:
     {
         if (m_surface != nullptr)
         {
-            throw std::exception("Cannot assign to a previously assigned surface");
+            throw SDLException("Cannot assign to a previously assigned surface");
         }
 
         m_surface = other.m_surface;

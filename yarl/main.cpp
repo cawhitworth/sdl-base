@@ -112,9 +112,9 @@ int main(int argc, char* argv[])
 
         }
     }
-    catch (std::exception e)
+    catch (SDLException e)
     {
-        std::cerr << e.what() << std::endl;
+        std::cerr << e.Message() << std::endl;
         return -1;
     }
     return 0;

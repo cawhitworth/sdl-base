@@ -1,6 +1,5 @@
 
 #include <sstream>
-#include <exception>
 
 #include "SDL_render.h"
 #include "SDLWrapper.h"
@@ -11,7 +10,7 @@ SDLWrapper::SDLWrapper(int w, int h)
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
         err << "SDL could not initialise: " << SDL_GetError();
-        throw std::exception(err.str().c_str());
+        throw SDLException(err.str().c_str());
     }
 
     m_window = SDL_CreateWindow("Yarl", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, w, h, SDL_WINDOW_SHOWN);
@@ -19,14 +18,14 @@ SDLWrapper::SDLWrapper(int w, int h)
     if (m_window == nullptr)
     {
         err << "Window could not be created" << SDL_GetError();
-        throw std::exception(err.str().c_str());
+        throw SDLException(err.str().c_str());
     }
 
     auto renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     if (SDL_RenderClear(renderer) < 0)
     {
         err << SDL_GetError();
-        throw std::exception(err.str().c_str());
+        throw SDLException(err.str().c_str());
     }
 
     m_renderer = SDLRenderer(renderer);
