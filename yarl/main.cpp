@@ -64,7 +64,7 @@ int main(int argc, char* argv[])
                     quit = true;
                 }
 
-                if (e.type == SDL_KEYUP)
+                if (e.type == SDL_KEYDOWN)
                 {
                     switch (e.key.keysym.sym)
                     {
@@ -95,10 +95,10 @@ int main(int argc, char* argv[])
             auto elapsed = duration_cast<milliseconds>(high_resolution_clock::now() - last);
             last = high_resolution_clock::now();
 
+            impRenderer.SetOrigin(mapOrigin);
             for (auto& i : imps)
             {
                 i.Update(elapsed);
-                impRenderer.SetOrigin(mapOrigin);
                 impRenderer.Render(i);
             }
 
