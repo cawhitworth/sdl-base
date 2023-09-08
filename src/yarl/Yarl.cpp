@@ -20,46 +20,50 @@
 using namespace std::chrono;
 
 class YarlImpl {
-    std::unique_ptr<SDLWrapper> m_sdlWrapper;
-    Size m_screenSize;
+    std::unique_ptr<SDLWrapper> _sdlWrapper;
+    Size _screenSize;
+
+    Position _origin;
+    Map _map;
+    std::vector<Imp> _imps;
+    TextRenderer _textRenderer;
+    FPS _fps;
+    MapRenderer _mapRenderer;
+    ImpRenderer _impRenderer;
 
 public:
-    YarlImpl(std::unique_ptr<SDLWrapper> sdlWrapper, Size screenSize) 
-        : m_sdlWrapper(std::move(sdlWrapper))
-        , m_screenSize(screenSize)
-    {}
-    
-    void YarlMain()
+    YarlImpl(std::unique_ptr<SDLWrapper> sdlWrapper, Size screenSize) :
+        _sdlWrapper(std::move(sdlWrapper)),
+        _screenSize(screenSize),
+        _origin(0,0),
+        _map(Size(200,200)),
+        _imps(),
+        _fps(),
+        _textRenderer("images/Teeto_K_18x18.PNG", _sdlWrapper->Renderer()),
+        _mapRenderer(_textRenderer, _map),
+        _impRenderer(_textRenderer)
     {
-        Position origin(0, 0);
-        Map m(Size(200, 200));
-        std::vector<Imp> imps;
-
-        auto &renderer = m_sdlWrapper->Renderer();
-        auto textRenderer = TextRenderer("images/Teeto_K_18x18.PNG", renderer);
-        auto charSize = textRenderer.CharSize();
-        MapRenderer mapRenderer(textRenderer, m);
-        ImpRenderer impRenderer(textRenderer);
-
-        Size viewPort(m_screenSize.w / charSize.w, m_screenSize.h / charSize.h);
-
-        FPS fps;
-
-        AddDungeonHeart(m, Position(8, 8));
+        AddDungeonHeart(_map, Position(8, 8));
 
         for (int i = 0; i < 5; i++)
         {
-            imps.push_back(Imp(m, Position(5, 5)));
+            _imps.push_back(Imp(_map, Position(5, 5)));
         }
+    }
+    
+    void YarlMain()
+    {
+        auto charSize = _textRenderer.CharSize();
+        Size viewPort(_screenSize.w / charSize.w, _screenSize.h / charSize.h);
 
         auto last = high_resolution_clock::now();
 
-        auto mapOrigin = origin;
+        auto mapOrigin = _origin;
 
         auto quit = false;
         while (!quit)
         {
-            fps.Tick();
+            _fps.Tick();
 
             SDL_Event e;
             while (SDL_PollEvent(&e) != 0)
@@ -93,27 +97,27 @@ public:
                 }
             }
 
-            renderer.Clear();
+            _sdlWrapper->Renderer().Clear();
 
-            mapRenderer.Render(mapOrigin, viewPort);
+            _mapRenderer.Render(mapOrigin, viewPort);
 
             auto elapsed = duration_cast<milliseconds>(high_resolution_clock::now() - last);
             last = high_resolution_clock::now();
 
-            impRenderer.SetOrigin(mapOrigin);
-            for (auto& i : imps)
+            _impRenderer.SetOrigin(mapOrigin);
+            for (auto& i : _imps)
             {
                 i.Update(elapsed);
-                impRenderer.Render(i);
+                _impRenderer.Render(i);
             }
 
             std::stringstream fpsText;
-            fpsText << fps.Fps() << "FPS";
+            fpsText << _fps.Fps() << "FPS";
 
-            textRenderer.PrintString(fpsText.str(), origin, Color(200, 255, 200));
-            textRenderer.PrintString("Yet Another Rogue-like", Position(5,2), Color(200, 200, 200));
+            _textRenderer.PrintString(fpsText.str(), _origin, Color(200, 255, 200));
+            _textRenderer.PrintString("Yet Another Rogue-like", Position(5,2), Color(200, 200, 200));
 
-            renderer.Present();
+            _sdlWrapper->Renderer().Present();
 
         }
     }
