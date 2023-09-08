@@ -1,8 +1,12 @@
 #pragma once
 #include <SDL.h>
-#include "TextRenderer.h"
+
+#include "sdl/SDLException.h"
+
+#include "utils/TextRenderer.h"
+
 #include "Color.h"
-#include "SDLException.h"
+
 struct SDL_Renderer;
 
 class SDLRenderer

@@ -1,42 +1,47 @@
-#include <iostream>
-#include <chrono>
+#include <algorithm>
+#include <sstream>
 
 #include "SDLWrapper.h"
+
+#include "utils/TextRenderer.h"
+#include "utils/FPS.h"
 #include "PngLoader.h"
 
-#define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 480
-#include "TextRenderer.h"
-#include "Color.h"
-#include <sstream>
-#include "FPS.h"
+#include "Yarl.h"
+
 #include "Map.h"
 #include "MapRenderer.h"
 
 #include "Imp.h"
 #include "ImpRenderer.h"
-#include <algorithm>
+
+#include "Color.h"
 
 using namespace std::chrono;
 
-#pragma warning(disable: 4100)
-int main(int argc, char* argv[])
-{
+class YarlImpl {
+    std::unique_ptr<SDLWrapper> m_sdlWrapper;
+    Size m_screenSize;
 
-    try {
+public:
+    YarlImpl(std::unique_ptr<SDLWrapper> sdlWrapper, Size screenSize) 
+        : m_sdlWrapper(std::move(sdlWrapper))
+        , m_screenSize(screenSize)
+    {}
+    
+    void YarlMain()
+    {
         Position origin(0, 0);
         Map m(Size(200, 200));
         std::vector<Imp> imps;
 
-        SDLWrapper wrapper(SCREEN_WIDTH, SCREEN_HEIGHT);
-
-        auto &renderer = wrapper.Renderer();
+        auto &renderer = m_sdlWrapper->Renderer();
         auto textRenderer = TextRenderer("images/Teeto_K_18x18.PNG", renderer);
         auto charSize = textRenderer.CharSize();
         MapRenderer mapRenderer(textRenderer, m);
         ImpRenderer impRenderer(textRenderer);
 
-        Size viewPort(SCREEN_WIDTH / charSize.w, SCREEN_HEIGHT / charSize.h);
+        Size viewPort(m_screenSize.w / charSize.w, m_screenSize.h / charSize.h);
 
         FPS fps;
 
@@ -112,10 +117,18 @@ int main(int argc, char* argv[])
 
         }
     }
-    catch (SDLException e)
-    {
-        std::cerr << e.Message() << std::endl;
-        return -1;
-    }
-    return 0;
+};
+
+Yarl::Yarl(std::unique_ptr<SDLWrapper> sdlWrapper, Size screenSize)
+    : m_impl(std::make_unique<YarlImpl>(std::move(sdlWrapper), screenSize))
+{
+}
+
+Yarl::~Yarl()
+{
+}
+
+void Yarl::Main()
+{
+    m_impl->YarlMain();
 }

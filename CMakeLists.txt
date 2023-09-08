@@ -1,41 +1,51 @@
 cmake_minimum_required(VERSION 3.21)
 
-project(YarlPP LANGUAGES CXX)
+project(sdl-base LANGUAGES CXX)
 
 find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
 
-add_executable(${PROJECT_NAME}
-    yarl/main.cpp
-    yarl/SDLWrapper.cpp
-    yarl/SDLRenderer.cpp
-    yarl/SDLSurface.cpp
-    yarl/SDLTexture.cpp
+add_executable(sdl-base
+    src/main.cpp
 
-    yarl/FPS.cpp
-    yarl/Imp.cpp
-    yarl/ImpRenderer.cpp
-    yarl/Map.cpp
-    yarl/MapRenderer.cpp
-    yarl/PngLoader.cpp
-    yarl/TextRenderer.cpp
+    src/sdl/SDLWrapper.cpp
+    src/sdl/SDLRenderer.cpp
+    src/sdl/SDLSurface.cpp
+    src/sdl/SDLTexture.cpp
+
+    src/utils/FPS.cpp
+    src/utils/PngLoader.cpp
+    src/utils/TextRenderer.cpp
+    
+    src/yarl/Yarl.cpp
+    src/yarl/Imp.cpp
+    src/yarl/ImpRenderer.cpp
+    src/yarl/Map.cpp
+    src/yarl/MapRenderer.cpp
 )
 
-target_link_libraries(${PROJECT_NAME} PUBLIC
+target_include_directories(sdl-base PRIVATE 
+    src
+    src/sdl
+    src/utils
+    src/yarl
+    )
+
+target_link_libraries(sdl-base PRIVATE
     SDL2::SDL2
     SDL2::SDL2main
     SDL2_image::SDL2_image
 )
 
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+add_custom_command(TARGET sdl-base POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         "${PROJECT_SOURCE_DIR}/images"
-        $<TARGET_FILE_DIR:YarlPP>/images
+        $<TARGET_FILE_DIR:sdl-base>/images
 )
 
 if(WIN32)
-    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_RUNTIME_DLLS:YarlPP> $<TARGET_FILE_DIR:YarlPP>
+    add_custom_command(TARGET sdl-base POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_RUNTIME_DLLS:sdl-base> $<TARGET_FILE_DIR:sdl-base>
         COMMAND_EXPAND_LISTS
     )
 endif()

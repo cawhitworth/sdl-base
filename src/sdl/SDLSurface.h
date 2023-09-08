@@ -1,9 +1,11 @@
 #pragma once
 #include <SDL.h>
 #include <iostream>
-#include "SDLTexture.h"
-#include "BasicTypes.h"
+
 #include "SDLException.h"
+#include "SDLTexture.h"
+
+#include "BasicTypes.h"
 
 class SDLRenderer;
 struct Color;

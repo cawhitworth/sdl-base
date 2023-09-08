@@ -1,9 +1,11 @@
+#include <sstream>
+
 #include "SDLSurface.h"
 #include "SDLRect.h"
-#include "Color.h"
 #include "SDLRenderer.h"
 #include "SDLException.h"
-#include <sstream>
+
+#include "Color.h"
 
 SDLSurface::~SDLSurface()
 {
