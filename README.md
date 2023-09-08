@@ -10,11 +10,4 @@ of the new stuff in C++11: essentially, I've written move-semantic friendly
 wrappers around the SDL functions, which means that most of the actual "game"
 code is pointer-free - there are no `new` or `delete` calls in the code.
 
-Should build on Windows and Linux.
-
-Windows version is 32-bit only and expects to find SDL2-2.0.5 and
-SDL2_image-2.0.1 in ````C:\lib````. It builds in VS2013, I've not tried
-anything else.
-
-Linux version requires Clang with C++1y support, libc++, lidsdl2 and
-libsdl2_image. See your friendly package manager for futher details.
+Builds with CMake; needs SDL2 and SDL_image - if building on Windows, update the relevant paths in CMakePresets.json

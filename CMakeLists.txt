@@ -1,9 +1,6 @@
-cmake_minimum_required(VERSION 3.11)
+cmake_minimum_required(VERSION 3.21)
 
 project(YarlPP LANGUAGES CXX)
-
-set(SDL2_DIR "C:/sdl2/sdl2/cmake")
-set(SDL2_image_DIR "C:/sdl2/sdl2_image/cmake")
 
 find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
@@ -29,3 +26,16 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
     SDL2::SDL2main
     SDL2_image::SDL2_image
 )
+
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${PROJECT_SOURCE_DIR}/images"
+        $<TARGET_FILE_DIR:YarlPP>/images
+)
+
+if(WIN32)
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_RUNTIME_DLLS:YarlPP> $<TARGET_FILE_DIR:YarlPP>
+        COMMAND_EXPAND_LISTS
+    )
+endif()
