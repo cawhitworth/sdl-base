@@ -1,11 +1,8 @@
 #include <algorithm>
-#include <sstream>
 
 #include "SDLWrapper.h"
 
 #include "utils/TextRenderer.h"
-#include "utils/FPS.h"
-#include "PngLoader.h"
 
 #include "Yarl.h"
 
@@ -20,28 +17,27 @@
 using namespace std::chrono;
 
 class YarlImpl {
-    std::unique_ptr<SDLWrapper> _sdlWrapper;
     Size _screenSize;
-
+    Size _charSize;
     Position _origin;
+    Position _mapOrigin;
     Map _map;
     std::vector<Imp> _imps;
-    TextRenderer _textRenderer;
-    FPS _fps;
     MapRenderer _mapRenderer;
     ImpRenderer _impRenderer;
+    steady_clock::time_point _last;
 
 public:
-    YarlImpl(std::unique_ptr<SDLWrapper> sdlWrapper, Size screenSize) :
-        _sdlWrapper(std::move(sdlWrapper)),
+    YarlImpl(const TextRenderer& textRenderer, Size screenSize) :
         _screenSize(screenSize),
+        _charSize(textRenderer.CharSize()),
         _origin(0,0),
+        _mapOrigin(_origin),
         _map(Size(200,200)),
         _imps(),
-        _fps(),
-        _textRenderer("images/Teeto_K_18x18.PNG", _sdlWrapper->Renderer()),
-        _mapRenderer(_textRenderer, _map),
-        _impRenderer(_textRenderer)
+        _mapRenderer(textRenderer, _map),
+        _impRenderer(textRenderer),
+        _last(high_resolution_clock::now())
     {
         AddDungeonHeart(_map, Position(8, 8));
 
@@ -51,80 +47,56 @@ public:
         }
     }
     
+    bool Handle(const SDL_Event& e)
+    {
+        auto quit = false;
+        if (e.type == SDL_KEYDOWN)
+        {
+            switch (e.key.keysym.sym)
+            {
+            case SDLK_ESCAPE:
+                quit = true;
+                break;
+            case SDLK_UP:
+                _mapOrigin.y = std::max(CoordType(0), _mapOrigin.y - 1); break;
+            case SDLK_DOWN:
+                _mapOrigin.y = std::min(CoordType(200), _mapOrigin.y + 1); break; // WRONG!
+            case SDLK_LEFT:
+                _mapOrigin.x = std::max(CoordType(0), _mapOrigin.x - 1); break;
+            case SDLK_RIGHT:
+                _mapOrigin.x = std::min(CoordType(200), _mapOrigin.x + 1); break; // WRONG!
+            }
+            if (e.key.keysym.sym == SDLK_ESCAPE)
+            {
+                quit = true;
+            }
+        }
+
+        return !quit;
+    }
+
     void YarlMain()
     {
-        auto charSize = _textRenderer.CharSize();
-        Size viewPort(_screenSize.w / charSize.w, _screenSize.h / charSize.h);
+        Size viewPort(_screenSize.w / _charSize.w, _screenSize.h / _charSize.h);
 
-        auto last = high_resolution_clock::now();
 
-        auto mapOrigin = _origin;
+        _mapRenderer.Render(_mapOrigin, viewPort);
 
-        auto quit = false;
-        while (!quit)
+        auto elapsed = duration_cast<milliseconds>(high_resolution_clock::now() - _last);
+        _last = high_resolution_clock::now();
+
+        _impRenderer.SetOrigin(_mapOrigin);
+        for (auto& i : _imps)
         {
-            _fps.Tick();
-
-            SDL_Event e;
-            while (SDL_PollEvent(&e) != 0)
-            {
-                if (e.type == SDL_QUIT)
-                {
-                    quit = true;
-                }
-
-                if (e.type == SDL_KEYDOWN)
-                {
-                    switch (e.key.keysym.sym)
-                    {
-                    case SDLK_ESCAPE:
-                        quit = true;
-                        break;
-                    case SDLK_UP:
-                        mapOrigin.y = std::max(CoordType(0), mapOrigin.y - 1); break;
-                    case SDLK_DOWN:
-                        mapOrigin.y = std::min(CoordType(200), mapOrigin.y + 1); break; // WRONG!
-                    case SDLK_LEFT:
-                        mapOrigin.x = std::max(CoordType(0), mapOrigin.x - 1); break;
-                    case SDLK_RIGHT:
-                        mapOrigin.x = std::min(CoordType(200), mapOrigin.x + 1); break; // WRONG!
-                    }
-                    if (e.key.keysym.sym == SDLK_ESCAPE)
-                    {
-                        quit = true;
-                    }
-
-                }
-            }
-
-            _sdlWrapper->Renderer().Clear();
-
-            _mapRenderer.Render(mapOrigin, viewPort);
-
-            auto elapsed = duration_cast<milliseconds>(high_resolution_clock::now() - last);
-            last = high_resolution_clock::now();
-
-            _impRenderer.SetOrigin(mapOrigin);
-            for (auto& i : _imps)
-            {
-                i.Update(elapsed);
-                _impRenderer.Render(i);
-            }
-
-            std::stringstream fpsText;
-            fpsText << _fps.Fps() << "FPS";
-
-            _textRenderer.PrintString(fpsText.str(), _origin, Color(200, 255, 200));
-            _textRenderer.PrintString("Yet Another Rogue-like", Position(5,2), Color(200, 200, 200));
-
-            _sdlWrapper->Renderer().Present();
-
+            i.Update(elapsed);
+            _impRenderer.Render(i);
         }
+
     }
 };
 
-Yarl::Yarl(std::unique_ptr<SDLWrapper> sdlWrapper, Size screenSize)
-    : m_impl(std::make_unique<YarlImpl>(std::move(sdlWrapper), screenSize))
+Yarl::Yarl(const TextRenderer& textRenderer, Size screenSize)
+    : m_impl(std::make_unique<YarlImpl>(textRenderer, screenSize))
 {
 }
 
@@ -135,4 +107,9 @@ Yarl::~Yarl()
 void Yarl::Main()
 {
     m_impl->YarlMain();
+}
+
+bool Yarl::Handle(const SDL_Event& e)
+{
+    return m_impl->Handle(e);
 }
