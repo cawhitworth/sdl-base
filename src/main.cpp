@@ -1,8 +1,8 @@
 #include <sstream>
 #include <chrono>
 
-#define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 480
+#define SCREEN_WIDTH (18*80)
+#define SCREEN_HEIGHT (18*48)
 
 #include "SDLWrapper.h"
 #include "SDLException.h"
@@ -45,8 +45,8 @@ int main(int argc, char* argv[])
             std::stringstream fpsText;
             fpsText << fps.Fps() << "FPS";
 
-            textRenderer.PrintString(fpsText.str(), Position(0,0), Color(200, 255, 200));
-            textRenderer.PrintString("Yet Another Rogue-like", Position(5,2), Color(200, 200, 200));
+            textRenderer.PrintString(fpsText.str(), Position(70, 46), Color(200, 255, 200));
+            textRenderer.PrintString("Yet Another Rogue-like", Position(5,46), Color(200, 200, 200));
 
             wrapper.Renderer().Present();
             
